@@ -282,7 +282,8 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
 </div>
 
 </section>
-<div class="section-title">🥛 Milk Collection</div>
+<section id="milkCollection">
+ <div class="section-title">🥛 Milk Collection</div>
 
 <div class="panel" style="padding:14px;border-top:4px solid #13864c">
 
@@ -379,7 +380,7 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
   <div id="billResult"></div>
  </div>
 </section>
-
+</section>
 <section id="reports" class="hidden">
  <div class="section-title">📊 Reports</div>
  <div class="panel">
@@ -389,7 +390,8 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
   <div id="reportResult"></div>
  </div>
 </section>
-<section id="advance" class="hidden">
+
+ <section id="advance" class="hidden">
 <div class="section-title">💰 Advance Payment</div>
 
 <div class="panel">
@@ -454,7 +456,80 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
  <button class="secondary" onclick="show('advance')" style="width:100%;margin-top:10px">CANCEL</button>
 </div>
 </section>
-<section id="settings" class="hidden">
+<!-- CUSTOMER MILK PAGE -->
+<section id="customerMilk" class="hidden">
+  <div class="section-title">👤 Customer Milk</div>
+
+  <div class="panel" style="padding:10px;">
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input id="cmCodeSearch" type="text" placeholder="Customer Code"
+        style="flex:1;margin:0;background:white;"
+        oninput="onCustCodeInput()">
+
+      <select id="cmCustomerSelect"
+        style="flex:2;margin:0;background:white;"
+        onchange="renderCustomerMilkData()">
+      </select>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <label style="flex:1;">From
+        <input type="date" id="cmFromDate"
+          onchange="renderCustomerMilkData()">
+      </label>
+
+      <label style="flex:1;">To
+        <input type="date" id="cmToDate"
+          onchange="renderCustomerMilkData()">
+      </label>
+    </div>
+
+    <div class="card" style="padding:12px;">
+      <div style="font-size:16px;font-weight:bold;margin-bottom:8px;">
+        Today's Milk
+      </div>
+
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button type="button" id="cmMorningBtn"
+          onclick="setCmShift('Morning')">Morning</button>
+
+        <button type="button" id="cmEveningBtn"
+          onclick="setCmShift('Evening')">Evening</button>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Cattle</th>
+              <th>Liter</th>
+              <th>Fat</th>
+              <th>CLR</th>
+              <th>Rate</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="cmTodayTableBody">
+            <tr>
+              <td colspan="6" class="empty">No data available to display!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="padding:12px;">
+      <h3>Milk Total</h3>
+
+      <div>Total Milk: <strong id="cmTotalMilk">0.00</strong></div>
+      <div>Total Amount: <strong id="cmTotalAmount">₹0.00</strong></div>
+      <div>Avg. Milk: <strong id="cmAvgMilk">0.00</strong></div>
+      <div>Avg. Amount: <strong id="cmAvgAmount">₹0.00</strong></div>
+      <div>Avg. Rate: <strong id="cmAvgRate">₹0.00</strong></div>
+    </div>
+  </div>
+</section>
+ <section id="settings" class="hidden">
  <div class="section-title">⚙️ Settings</div>
  <div class="panel">
   <label>Dairy Name</label>
@@ -560,7 +635,7 @@ function renderCustomers(){
  list.map(c=>`<tr><td>${escapeHtml(c.code)}</td><td>${escapeHtml(c.name)}</td><td>${c.personalRate===''?'Default':'₹'+c.personalRate}</td><td><button class="secondary" onclick="editCustomer('${escapeAttr(c.code)}')">Edit</button></td></tr>`).join('')+'</table>':'<div class="empty">No customers found.</div>';
 }
 function updateCustomerOptions(){
- ['milkCustomer','billCustomer'].forEach(id=>{
+ ['milkCustomer','billCustomer','cmCustomerSelect'].forEach(id=>{
   const old=$(id).value;
   $(id).innerHTML=customers.map(c=>`<option value="${escapeAttr(c.code)}">${escapeHtml(c.name)} (${escapeHtml(c.code)})</option>`).join('');
   if(customers.some(c=>c.code===old))$(id).value=old;
@@ -576,16 +651,69 @@ $('milkCustomer').addEventListener('change',setMilkRate);
  function saveMilk(){
  const code=$('milkCustomer').value,c=customers.find(x=>x.code===code);
  const qty=Number($('milkQty').value),fat=Number($('milkFat').value),clr=Number($('milkClr').value),rate=Number($('milkRate').value);
- if(!c){alert('Pehle customer add karo.');return}
- if(!qty||qty<0||rate<0){alert('Milk quantity aur rate check karo.');return}
- entries.push({code,name:c.name,date:$('milkDate').value||today,shift:$('milkShift').value,qty,fat,clr,rate,amount:qty*rate});
+ const milkEntry = {
+  code,
+  name: c.name,
+  date: $('milkDate').value || today,
+  shift: $('milkShift').value,
+  qty,
+  fat,
+  clr,
+  rate,
+  amount: qty * rate
+};
+
+if (editingMilkIndex !== null) {
+  entries[editingMilkIndex] = milkEntry;
+  editingMilkIndex = null;
+} else {
+  entries.push(milkEntry);
+ }
  persist();
- ['milkQty','milkFat','milkClr'].forEach(id=>$(id).value='');
+ ['milkQty','milkFat','milkClr','milkSnf','milkTotal'].forEach(id => $(id).value = '');
+
+editingMilkIndex = null;
  dashboard();
  renderMilkEntries();
  alert('Milk entry save ho gayi.');
 }
 let editingMilkIndex = null;
+ function resetMilkForm() {
+  editingMilkIndex = null;
+
+  $('milkQty').value = '';
+  $('milkFat').value = '';
+  $('milkClr').value = '';
+  $('milkSnf').value = '';
+  $('milkTotal').value = '';
+
+  $('milkDate').value = today;
+  $('milkShift').value = shift;
+
+  setMilkRate();
+ }
+ function editMilk(i) {
+  const e = entries[i];
+  if (!e) return;
+
+  editingMilkIndex = i;
+
+  $('milkCustomer').value = e.code;
+  $('milkDate').value = e.date || today;
+  $('milkShift').value = e.shift || 'Morning';
+  $('milkQty').value = e.qty;
+  $('milkFat').value = e.fat;
+  $('milkClr').value = e.clr;
+  $('milkRate').value = e.rate;
+
+  $('milkShift').dispatchEvent(new Event('change'));
+
+  show('collection');
+
+  $('milkQty').focus();
+
+  alert('पुरानी एंट्री खुल गई है। बदलाव करके Save Entry दबाएँ।');
+ }
  function renderMilkEntries(){
   const box = document.getElementById('milkEntryList');
   if(!box) return;
@@ -690,21 +818,115 @@ function setTotalType(type, button) {
 
   button.classList.add('active');
 }
-
 function openCollectionTab(sectionId, button) {
-  if (sectionId === 'collection') {
-    show('collection');
-    return;
-  }
+const collection = $(‘collection’);
+if (!collection) return;
 
-  show(sectionId);
+document.querySelectorAll(‘main section’).forEach(s => {
+s.classList.add(‘hidden’);
+});
 
-  document.querySelectorAll('.collection-tabs button')
-    .forEach(btn => btn.classList.remove('active'));
+collection.classList.remove(‘hidden’);
 
-  if (button) button.classList.add('active');
+[‘milkCollection’, ‘totalCollection’, ‘collectionSummary’, ‘customerMilk’].forEach(id => {
+const section = $(id);
+if (section) section.classList.add(‘hidden’);
+});
+
+if (sectionId === ‘collection’) {
+$(‘milkCollection’)?.classList.remove(‘hidden’);
+} else {
+const target = $(sectionId);
+if (target) target.classList.remove(‘hidden’);
 }
-function openAdvanceForm() {
+
+document.querySelectorAll(’#collection > .collection-tabs button’).forEach(btn => {
+btn.classList.remove(‘active’);
+});
+
+if (button) button.classList.add(‘active’);
+window.scrollTo(0, 0);
+ }
+ // Customer Milk
+let cmShift = 'Evening';
+
+function setCmShift(s) {
+  cmShift = s;
+
+  $('cmMorningBtn').style.background =
+    s === 'Morning' ? '#1976d2' : 'white';
+  $('cmMorningBtn').style.color =
+    s === 'Morning' ? 'white' : '#1976d2';
+
+  $('cmEveningBtn').style.background =
+    s === 'Evening' ? '#1976d2' : 'white';
+  $('cmEveningBtn').style.color =
+    s === 'Evening' ? 'white' : '#1976d2';
+
+  renderCustomerMilkData();
+}
+
+function onCustCodeInput() {
+  const code = $('cmCodeSearch').value.trim();
+
+  const match = customers.find(c =>
+    String(c.code).toLowerCase() === code.toLowerCase()
+  );
+
+  if (match) {
+    $('cmCustomerSelect').value = match.code;
+    renderCustomerMilkData();
+  }
+}
+
+function renderCustomerMilkData() {
+  const code = $('cmCustomerSelect').value;
+  const from = $('cmFromDate').value || today;
+  const to = $('cmToDate').value || today;
+
+  const todayEntries = entries.filter(e =>
+    String(e.code) === String(code) &&
+    e.date === today &&
+    e.shift === cmShift
+  );
+
+  $('cmTodayTableBody').innerHTML = todayEntries.length
+    ? todayEntries.map(e => `
+        <tr>
+          <td>${escapeHtml(e.cattle || 'Cow')}</td>
+          <td>${Number(e.qty || 0).toFixed(2)}</td>
+          <td>${Number(e.fat || 0).toFixed(1)}</td>
+          <td>${Number(e.clr || 0).toFixed(1)}</td>
+          <td>₹${Number(e.rate || 0).toFixed(2)}</td>
+          <td>₹${Number(e.amount || 0).toFixed(2)}</td>
+        </tr>
+      `).join('')
+    : '<tr><td colspan="6" class="empty">No data available to display!</td></tr>';
+
+  const rangeEntries = entries.filter(e =>
+    String(e.code) === String(code) &&
+    e.date >= from &&
+    e.date <= to
+  );
+
+  const totalMilk = rangeEntries.reduce(
+    (sum, e) => sum + Number(e.qty || 0), 0
+  );
+
+  const totalAmount = rangeEntries.reduce(
+    (sum, e) => sum + Number(e.amount || 0), 0
+  );
+
+  const days = new Set(rangeEntries.map(e => e.date)).size || 1;
+
+  $('cmTotalMilk').textContent = totalMilk.toFixed(2);
+  $('cmTotalAmount').textContent = '₹' + totalAmount.toFixed(2);
+  $('cmAvgMilk').textContent = (totalMilk / days).toFixed(2);
+  $('cmAvgAmount').textContent = '₹' + (totalAmount / days).toFixed(2);
+  $('cmAvgRate').textContent =
+    '₹' + (totalMilk ? totalAmount / totalMilk : 0).toFixed(2);
+ }
+ function openAdvanceForm() {
  $('advanceDate').value = today;
  $('advanceCode').value = '';
  $('advanceName').value = '';
@@ -897,6 +1119,11 @@ if(savedName)$('dairyName').value=savedName;
 const savedRate=localStorage.getItem('rajput_default_rate');
 if(savedRate)$('defaultRate').value=savedRate;
 updateCustomerOptions();dashboard();
+// Customer Milk initialization
+if ($('cmFromDate') && $('cmToDate')) {
+  $('cmFromDate').value = today.slice(0, 7) + '-01';
+  $('cmToDate').value = today;
+ }
 </script>
 <script>
   if ("serviceWorker" in navigator) {
@@ -908,4 +1135,4 @@ updateCustomerOptions();dashboard();
   }
   </script>
 </body>
-</html>
+ </html>
