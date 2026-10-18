@@ -835,33 +835,27 @@ function setTotalType(type, button) {
   button.classList.add('active');
 }
 function openCollectionTab(sectionId, button) {
-const collection = $(‘collection’);
-if (!collection) return;
-
-document.querySelectorAll(‘main section’).forEach(s => {
-s.classList.add(‘hidden’);
-});
-
-collection.classList.remove(‘hidden’);
-
-[‘milkCollection’, ‘totalCollection’, ‘collectionSummary’, ‘customerMilk’].forEach(id => {
-const section = $(id);
-if (section) section.classList.add(‘hidden’);
-});
-
-if (sectionId === ‘collection’) {
-$(‘milkCollection’).classList.remove(‘hidden’);
-} else {
-const target = $(sectionId);
-if (target) target.classList.remove(‘hidden’);
-}
-
-document.querySelectorAll(’#collection > .tabs button’).forEach(btn => {
-btn.classList.remove(‘active’);
-});
-
-if (button) button.classList.add(‘active’);
-window.scrollTo(0, 0);
+  const collection = $('collection');
+  if (!collection) return;
+  document.querySelectorAll('main section').forEach(s => {
+    s.classList.add('hidden');
+  });
+  collection.classList.remove('hidden');
+  ['milkCollection', 'totalCollection', 'collectionSummary', 'customerMilk'].forEach(id => {
+    const section = $(id);
+    if (section) section.classList.add('hidden');
+  });
+  if (sectionId === 'collection') {
+    $('milkCollection').classList.remove('hidden');
+  } else {
+    const target = $(sectionId);
+    if (target) target.classList.remove('hidden');
+  }
+  document.querySelectorAll('#collection > .tabs button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (button) button.classList.add('active');
+  window.scrollTo(0, 0);
  }
  // Customer Milk
 let cmShift = 'Evening';
