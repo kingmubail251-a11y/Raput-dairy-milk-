@@ -1,0 +1,283 @@
+/* Rajput Dairy Milk - Main Design */
+:root {
+  --green: #16834a;
+    --dark-green: #105c35;
+      --light-green: #e9f7ef;
+        --background: #f4f7f5;
+          --white: #ffffff;
+            --text: #203128;
+              --muted: #6b7770;
+                --border: #e0e8e2;
+                }
+
+                * {
+                  box-sizing: border-box;
+                  }
+
+                  html {
+                    scroll-behavior: smooth;
+                    }
+
+                    body {
+                      margin: 0;
+                        font-family: Arial, Helvetica, sans-serif;
+                          background: var(--background);
+                            color: var(--text);
+                              -webkit-tap-highlight-color: transparent;
+                              }
+
+                              button,
+                              input,
+                              select {
+                                font: inherit;
+                                }
+
+                                button {
+                                  cursor: pointer;
+                                    transition: 0.2s ease;
+                                    }
+
+                                    button:active {
+                                      transform: scale(0.97);
+                                      }
+
+                                      /* Header */
+                                      header {
+                                        background: var(--green);
+                                          color: white;
+                                            padding: 18px 16px;
+                                              border-radius: 0 0 22px 22px;
+                                              }
+
+                                              header h1 {
+                                                font-size: 21px;
+                                                  margin: 0;
+                                                  }
+
+                                                  header p {
+                                                    font-size: 12px;
+                                                      margin-top: 6px;
+                                                      }
+
+                                                      /* Main content */
+                                                      main {
+                                                        width: 100%;
+                                                          max-width: 950px;
+                                                            margin: auto;
+                                                              padding: 16px 13px 100px;
+                                                              }
+
+                                                              .page {
+                                                                display: none;
+                                                                }
+
+                                                                .page.active {
+                                                                  display: block;
+                                                                  }
+
+                                                                  .section-title {
+                                                                    font-size: 19px;
+                                                                      font-weight: 700;
+                                                                        margin: 12px 0;
+                                                                        }
+
+                                                                        /* Dashboard cards */
+                                                                        .grid {
+                                                                          display: grid;
+                                                                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                                                                              gap: 11px;
+                                                                              }
+
+                                                                              .card,
+                                                                              .panel {
+                                                                                background: var(--white);
+                                                                                  border: 1px solid var(--border);
+                                                                                    border-radius: 15px;
+                                                                                      padding: 15px;
+                                                                                        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.035);
+                                                                                        }
+
+                                                                                        .metric-label {
+                                                                                          font-size: 12px;
+                                                                                            color: var(--muted);
+                                                                                            }
+
+                                                                                            .metric-value {
+                                                                                              font-size: 22px;
+                                                                                                font-weight: 750;
+                                                                                                  color: var(--dark-green);
+                                                                                                    margin-top: 9px;
+                                                                                                    }
+
+                                                                                                    /* Quick action buttons */
+                                                                                                    .actions {
+                                                                                                      display: grid;
+                                                                                                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                                                                                                          gap: 10px;
+                                                                                                          }
+
+                                                                                                          .action {
+                                                                                                            display: flex;
+                                                                                                              align-items: center;
+                                                                                                                gap: 10px;
+                                                                                                                  background: white;
+                                                                                                                    color: var(--text);
+                                                                                                                      border: 1px solid var(--border);
+                                                                                                                        border-radius: 13px;
+                                                                                                                          padding: 14px 10px;
+                                                                                                                            text-align: left;
+                                                                                                                            }
+
+                                                                                                                            .action span {
+                                                                                                                              font-size: 23px;
+                                                                                                                              }
+
+                                                                                                                              .action small {
+                                                                                                                                display: block;
+                                                                                                                                  color: var(--muted);
+                                                                                                                                    font-size: 11px;
+                                                                                                                                      margin-top: 4px;
+                                                                                                                                      }
+
+                                                                                                                                      /* Buttons */
+                                                                                                                                      button {
+                                                                                                                                        border: none;
+                                                                                                                                          border-radius: 10px;
+                                                                                                                                            padding: 12px 15px;
+                                                                                                                                              background: var(--green);
+                                                                                                                                                color: white;
+                                                                                                                                                  font-weight: 600;
+                                                                                                                                                  }
+
+                                                                                                                                                  button.secondary {
+                                                                                                                                                    background: #edf3ef;
+                                                                                                                                                      color: var(--dark-green);
+                                                                                                                                                      }
+
+                                                                                                                                                      button.danger {
+                                                                                                                                                        background: #fff0f0;
+                                                                                                                                                          color: #c43d3d;
+                                                                                                                                                          }
+
+                                                                                                                                                          button.full {
+                                                                                                                                                            width: 100%;
+                                                                                                                                                            }
+
+                                                                                                                                                            /* Forms */
+                                                                                                                                                            .field {
+                                                                                                                                                              margin-bottom: 13px;
+                                                                                                                                                              }
+
+                                                                                                                                                              .field label {
+                                                                                                                                                                display: block;
+                                                                                                                                                                  font-size: 13px;
+                                                                                                                                                                    font-weight: 600;
+                                                                                                                                                                      margin-bottom: 7px;
+                                                                                                                                                                      }
+
+                                                                                                                                                                      .field input,
+                                                                                                                                                                      .field select {
+                                                                                                                                                                        width: 100%;
+                                                                                                                                                                          min-height: 43px;
+                                                                                                                                                                            padding: 11px;
+                                                                                                                                                                              border: 1px solid #d7e1d9;
+                                                                                                                                                                                border-radius: 9px;
+                                                                                                                                                                                  background: white;
+                                                                                                                                                                                    color: var(--text);
+                                                                                                                                                                                    }
+
+                                                                                                                                                                                    .field input:focus,
+                                                                                                                                                                                    .field select:focus {
+                                                                                                                                                                                      outline: 2px solid #b5e5c6;
+                                                                                                                                                                                        border-color: var(--green);
+                                                                                                                                                                                        }
+
+                                                                                                                                                                                        .row {
+                                                                                                                                                                                          display: grid;
+                                                                                                                                                                                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                                                                                                                                                                                              gap: 10px;
+                                                                                                                                                                                              }
+
+                                                                                                                                                                                              /* Tables */
+                                                                                                                                                                                              .table-wrap {
+                                                                                                                                                                                                width: 100%;
+                                                                                                                                                                                                  overflow-x: auto;
+                                                                                                                                                                                                    border: 1px solid var(--border);
+                                                                                                                                                                                                      border-radius: 10px;
+                                                                                                                                                                                                      }
+
+                                                                                                                                                                                                      table {
+                                                                                                                                                                                                        width: 100%;
+                                                                                                                                                                                                          border-collapse: collapse;
+                                                                                                                                                                                                            background: white;
+                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                            th,
+                                                                                                                                                                                                            td {
+                                                                                                                                                                                                              padding: 12px 10px;
+                                                                                                                                                                                                                text-align: left;
+                                                                                                                                                                                                                  border-bottom: 1px solid #edf1ee;
+                                                                                                                                                                                                                    font-size: 13px;
+                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                    th {
+                                                                                                                                                                                                                      background: var(--light-green);
+                                                                                                                                                                                                                        color: var(--dark-green);
+                                                                                                                                                                                                                          white-space: nowrap;
+                                                                                                                                                                                                                          }
+
+                                                                                                                                                                                                                          tr:last-child td {
+                                                                                                                                                                                                                            border-bottom: none;
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                            /* Rate List options */
+                                                                                                                                                                                                                            .radio-row {
+                                                                                                                                                                                                                              display: flex;
+                                                                                                                                                                                                                                flex-wrap: wrap;
+                                                                                                                                                                                                                                  gap: 8px;
+                                                                                                                                                                                                                                  }
+
+                                                                                                                                                                                                                                  .radio-option {
+                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                      align-items: center;
+                                                                                                                                                                                                                                        gap: 7px;
+                                                                                                                                                                                                                                          padding: 10px;
+                                                                                                                                                                                                                                            border: 1px solid var(--border);
+                                                                                                                                                                                                                                              border-radius: 10px;
+                                                                                                                                                                                                                                                background: white;
+                                                                                                                                                                                                                                                  font-size: 13px;
+                                                                                                                                                                                                                                                  }
+
+                                                                                                                                                                                                                                                  .radio-option input {
+                                                                                                                                                                                                                                                    accent-color: var(--green);
+                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                    /* Session selector */
+                                                                                                                                                                                                                                                    .session {
+                                                                                                                                                                                                                                                      display: flex;
+                                                                                                                                                                                                                                                        gap: 8px;
+                                                                                                                                                                                                                                                          margin-top: 15px;
+                                                                                                                                                                                                                                                          }
+
+                                                                                                                                                                                                                                                          .session button {
+                                                                                                                                                                                                                                                            flex: 1;
+                                                                                                                                                                                                                                                              background: rgba(255, 255, 255, 0.16);
+                                                                                                                                                                                                                                                                border: 1px solid rgba(255, 255, 255, 0.4);
+                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                .session button.active {
+                                                                                                                                                                                                                                                                  background: white;
+                                                                                                                                                                                                                                                                    color: var(--green);
+                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                    /* Bottom navigation */
+                                                                                                                                                                                                                                                                    .bottom {
+                                                                                                                                                                                                                                                                      position: fixed;
+                                                                                                                                                                                                                                                                        z-index: 100;
+                                                                                                                                                                                                                                                                          left: 0;
+                                                                                                                                                                                                                                                                            right: 0;
+                                                                                                                                                                                                                                                                              bottom: 0;
+                                                                                                                                                                                                                                                                                display: grid;
+                                                                                                                                                                                                                                                                                  grid-template-columns: repeat(5, minmax(0, 1fr));
+                                                                                                                                                                                                                                                                                    gap: 2px;
+                                                                                                                                                                                                                                                                                      padding: 8px 4px calc(8px + env(safe-area-inset
