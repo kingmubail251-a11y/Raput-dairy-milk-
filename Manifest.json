@@ -1,0 +1,10 @@
+{
+  "name": "Rajput Dairy Milk",
+  "short_name": "Rajput Dairy",
+  "description": "Rajput Dairy Milk Management App",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#166534"
+}
