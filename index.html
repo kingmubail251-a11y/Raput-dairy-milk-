@@ -850,13 +850,13 @@ if (section) section.classList.add(‘hidden’);
 });
 
 if (sectionId === ‘collection’) {
-$(‘milkCollection’)?.classList.remove(‘hidden’);
+$(‘milkCollection’).classList.remove(‘hidden’);
 } else {
 const target = $(sectionId);
 if (target) target.classList.remove(‘hidden’);
 }
 
-document.querySelectorAll(’#collection > .collection-tabs button’).forEach(btn => {
+document.querySelectorAll(’#collection > .tabs button’).forEach(btn => {
 btn.classList.remove(‘active’);
 });
 
@@ -894,36 +894,47 @@ function onCustCodeInput() {
     renderCustomerMilkData();
   }
 }
+
 function renderCollectionSummary() {
-const from = $(‘csFromDate’).value;
-const to = $(‘csToDate’).value;
-const result = $(‘csSummaryResult’);
+  const from = $('csFromDate').value;
+  const to = $('csToDate').value;
+  const result = $('csSummaryResult');
 
-if (!from || !to || from > to) {
-result.innerHTML = ‘कृपया सही तारीख चुनें।’;
-return;
-}
+  if (!from || !to || from > to) {
+    result.innerHTML = 'कृपया सही तारीख चुनें।';
+    return;
+  }
 
-const list = entries.filter(e => {
-const date = e.date || e.entryDate || ‘’;
-return date >= from && date <= to;
-});
+  const list = entries.filter(e => {
+    const date = e.date || e.entryDate || '';
+    return date >= from && date <= to;
+  });
 
-const totalMilk = list.reduce((sum, e) =>
-sum + Number(e.qty || e.liter || e.milk || 0), 0);
+  const totalMilk = list.reduce((sum, e) =>
+    sum + Number(e.qty || e.liter || e.milk || 0), 0);
 
-const totalAmount = list.reduce((sum, e) =>
-sum + Number(e.amount || 0), 0);
+  const totalAmount = list.reduce((sum, e) =>
+    sum + Number(e.amount || 0), 0);
 
-const morning = list
-.filter(e => String(e.shift || ‘’).toLowerCase().includes(‘morning’))
-.reduce((sum, e) => sum + Number(e.qty || e.liter || e.milk || 0), 0);
+  const morning = list
+    .filter(e => String(e.shift || '').toLowerCase().includes('morning'))
+    .reduce((sum, e) =>
+      sum + Number(e.qty || e.liter || e.milk || 0), 0);
 
-const evening = list
-.filter(e => String(e.shift || ‘’).toLowerCase().includes(‘evening’))
-.reduce((sum, e) => sum + Number(e.qty || e.liter || e.milk || 0), 0);
+  const evening = list
+    .filter(e => String(e.shift || '').toLowerCase().includes('evening'))
+    .reduce((sum, e) =>
+      sum + Number(e.qty || e.liter || e.milk || 0), 0);
 
-result.innerHTML = <div class="card"> <p>कुल एंट्री: <strong>${list.length}</strong></p> <p>कुल दूध: <strong>${totalMilk.toFixed(2)} लीटर</strong></p> <p>सुबह का दूध: <strong>${morning.toFixed(2)} लीटर</strong></p> <p>शाम का दूध: <strong>${evening.toFixed(2)} लीटर</strong></p> <p>कुल रकम: <strong>₹${totalAmount.toFixed(2)}</strong></p> </div>;
+  result.innerHTML = `
+    <div class="card">
+      <p>कुल एंट्री: <strong>${list.length}</strong></p>
+      <p>कुल दूध: <strong>${totalMilk.toFixed(2)} लीटर</strong></p>
+      <p>सुबह का दूध: <strong>${morning.toFixed(2)} लीटर</strong></p>
+      <p>शाम का दूध: <strong>${evening.toFixed(2)} लीटर</strong></p>
+      <p>कुल रकम: <strong>₹${totalAmount.toFixed(2)}</strong></p>
+    </div>
+  `;
  }
 function renderCustomerMilkData() {
   const code = $('cmCustomerSelect').value;
