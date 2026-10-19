@@ -560,8 +560,25 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
   <input type="file" id="restoreFile" accept=".json">
   <button class="secondary" onclick="restore()">Restore Backup</button>
  </div>
-</section>
+<div class="panel">
+  <div class="section-title">🥛 Rate List Settings</div>
+  <button class="primary" onclick="show('rateSettings')">
+    ⚙️ Open Rate List
+  </button>
+</div>
+ </section>
+<section id="rateSettings" class="hidden">
+<div class="section-title">🥛 Rate List Settings</div>
 
+<div class="panel">
+  <button class="secondary" onclick="selectRateChart('Only Fat')">Only Fat</button>
+  <button class="secondary" onclick="selectRateChart('Fat/CLR')">Fat / CLR</button>
+  <button class="secondary" onclick="selectRateChart('Fat/SNF')">Fat / SNF</button>
+  <button class="secondary" onclick="selectRateChart('Fix Rate')">Fix Rate</button>
+</div>
+<button class="primary" onclick="saveRateSettings()">💾 Save Rate Settings</button>
+<button class="secondary" onclick="show('settings')">⬅️ Back</button>
+</section>
 </main>
 
 <nav class="bottom">
@@ -1184,6 +1201,19 @@ if ($('cmFromDate') && $('cmToDate')) {
         .catch((error) => console.error("Service Worker error:", error));
     });
   }
-  </script>
+  let selectedRateChart = localStorage.getItem('rajput_rate_chart') || 'Only Fat';
+
+function selectRateChart(type) {
+  selectedRateChart = type;
+  document.querySelectorAll('#rateSettings button.secondary').forEach(btn => {
+    btn.style.background = btn.textContent.includes(type) ? '#b7e4c7' : '';
+  });
+}
+
+function saveRateSettings() {
+  localStorage.setItem('rajput_rate_chart', selectedRateChart);
+  alert('Rate Settings save ho gayi!');
+                                               }
+</script>
 </body>
  </html>
