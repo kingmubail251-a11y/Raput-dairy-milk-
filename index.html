@@ -1328,12 +1328,21 @@ let selectedRateChart =
 function selectRateChart(type) {
   selectedRateChart = type;
 
-  document.querySelectorAll('#rateSettings button.secondary')
+  document.querySelectorAll('.rate-chart-options button')
     .forEach(btn => {
-      btn.style.background =
-        btn.textContent.includes(type) ? '#b7e4c7' : '';
+      const isSelected = btn.textContent.trim().replace(/\s+/g, '') ===
+        type.replace(/\s+/g, '');
+
+      btn.style.background = isSelected ? '#16803c' : '';
+      btn.style.color = isSelected ? '#ffffff' : '';
     });
 }
+
+function saveRateSettings() {
+  localStorage.setItem('rajput_rate_chart', selectedRateChart);
+  alert('Rate Settings save ho gayi!');
+  selectRateChart(selectedRateChart);
+  }
 
 function saveRateSettings() {
   localStorage.setItem('rajput_rate_chart', selectedRateChart);
