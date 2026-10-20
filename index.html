@@ -1337,17 +1337,12 @@ function selectRateChart(type) {
       btn.style.color = isSelected ? '#ffffff' : '';
     });
 }
-
+selectRateChart(selectedRateChart);
 function saveRateSettings() {
   localStorage.setItem('rajput_rate_chart', selectedRateChart);
   alert('Rate Settings save ho gayi!');
   selectRateChart(selectedRateChart);
   }
-
-function saveRateSettings() {
-  localStorage.setItem('rajput_rate_chart', selectedRateChart);
-  alert('Rate Settings save ho gayi!');
-}
 
 function showRateSettings() {
   show('rateSettings');
