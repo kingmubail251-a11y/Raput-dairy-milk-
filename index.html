@@ -1276,7 +1276,40 @@ if ($('cmFromDate') && $('cmToDate')) {
   $('cmToDate').value = today;
  }
 </script>
-<script>
+function openRateEditor() {
+  document.getElementById('rateEditorModal').classList.remove('hidden');
+
+  document.getElementById('fatRatePerKg').value = '';
+  document.getElementById('snfRatePerKg').value = '';
+
+  document.getElementById('fixRateBySnfClr').checked = false;
+}
+
+function closeRateEditor() {
+  document.getElementById('rateEditorModal').classList.add('hidden');
+}
+
+function saveRateSlot() {
+  const fatRate = document.getElementById('fatRatePerKg').value;
+  const snfRate = document.getElementById('snfRatePerKg').value;
+
+  if (fatRate === '' || snfRate === '' ||
+      Number(fatRate) < 0 || Number(snfRate) < 0) {
+    alert('FAT Rate aur SNF Rate bharein.');
+    return;
+  }
+
+  localStorage.setItem('rajput_fat_rate', fatRate);
+  localStorage.setItem('rajput_snf_rate', snfRate);
+  localStorage.setItem(
+    'rajput_fix_rate_by_snf_clr',
+    document.getElementById('fixRateBySnfClr').checked
+  );
+
+  alert('FAT aur SNF Rate save ho gaye!');
+  closeRateEditor();
+}
+ <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./service-worker.js")
@@ -1284,21 +1317,28 @@ if ($('cmFromDate') && $('cmToDate')) {
         .catch((error) => console.error("Service Worker error:", error));
     });
   }
-  let selectedRateChart = localStorage.getItem('rajput_rate_chart') || 'Only Fat';
+let selectedRateChart =
+  localStorage.getItem('rajput_rate_chart') || 'Only Fat';
 
 function selectRateChart(type) {
   selectedRateChart = type;
-  document.querySelectorAll('#rateSettings button.secondary').forEach(btn => {
-    btn.style.background = btn.textContent.includes(type) ? '#b7e4c7' : '';
-  });
+
+  document.querySelectorAll('#rateSettings button.secondary')
+    .forEach(btn => {
+      btn.style.background =
+        btn.textContent.includes(type) ? '#b7e4c7' : '';
+    });
 }
 
 function saveRateSettings() {
   localStorage.setItem('rajput_rate_chart', selectedRateChart);
   alert('Rate Settings save ho gayi!');
-   function showRateSettings() {
+}
+
+function showRateSettings() {
   show('rateSettings');
- }                                            }
+}
+                                        
 </script>
 </body>
  </html>
