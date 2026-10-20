@@ -1275,14 +1275,17 @@ if ($('cmFromDate') && $('cmToDate')) {
   $('cmFromDate').value = today.slice(0, 7) + '-01';
   $('cmToDate').value = today;
  }
-</script>
 function openRateEditor() {
   document.getElementById('rateEditorModal').classList.remove('hidden');
 
-  document.getElementById('fatRatePerKg').value = '';
-  document.getElementById('snfRatePerKg').value = '';
+  document.getElementById('fatRatePerKg').value =
+    localStorage.getItem('rajput_fat_rate') || '';
 
-  document.getElementById('fixRateBySnfClr').checked = false;
+  document.getElementById('snfRatePerKg').value =
+    localStorage.getItem('rajput_snf_rate') || '';
+
+  document.getElementById('fixRateBySnfClr').checked =
+    localStorage.getItem('rajput_fix_rate_by_snf_clr') === 'true';
 }
 
 function closeRateEditor() {
@@ -1308,7 +1311,9 @@ function saveRateSlot() {
 
   alert('FAT aur SNF Rate save ho gaye!');
   closeRateEditor();
-}
+ }
+</script>
+
  <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
