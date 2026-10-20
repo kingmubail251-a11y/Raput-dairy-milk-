@@ -562,17 +562,106 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
 </div>
  </section>
 <section id="rateSettings" class="hidden">
-<div class="section-title">🥛 Rate List Settings</div>
+  <div class="section-title">🥛 Rate List Settings</div>
 
-<div class="panel">
-  <button class="secondary" onclick="selectRateChart('Only Fat')">Only Fat</button>
-  <button class="secondary" onclick="selectRateChart('Fat/CLR')">Fat / CLR</button>
-  <button class="secondary" onclick="selectRateChart('Fat/SNF')">Fat / SNF</button>
-  <button class="secondary" onclick="selectRateChart('Fix Rate')">Fix Rate</button>
-</div>
-<button class="primary" onclick="saveRateSettings()">💾 Save Rate Settings</button>
-<button class="secondary" onclick="show('settings')">⬅️ Back</button>
+  <div class="panel">
+    <label>Rate Chart</label>
+
+    <div class="rate-chart-options">
+      <button type="button" onclick="selectRateChart('Only Fat')">
+        Only Fat
+      </button>
+
+      <button type="button" onclick="selectRateChart('Fat/CLR')">
+        Fat / CLR
+      </button>
+
+      <button type="button" onclick="selectRateChart('Fat/SNF')">
+        Fat / SNF
+      </button>
+
+      <button type="button" onclick="selectRateChart('Fix Rate')">
+        Fix Rate
+      </button>
+    </div>
+
+    <button type="button" class="secondary"
+      onclick="openRateEditor()">
+      ✏️ Edit Rate Slot
+    </button>
+  </div>
+
+  <button type="button" class="primary"
+    onclick="saveRateSettings()">
+    💾 Save Rate Settings
+  </button>
+
+  <button type="button" class="secondary"
+    onclick="show('settings')">
+    ⬅️ Back
+  </button>
 </section>
+
+<div id="rateEditorModal" class="hidden">
+  <div class="rate-editor-box">
+    <h2>Edit Slot</h2>
+
+    <label>Rate Formula</label>
+    <select id="rateFormula">
+      <option value="ratio">By Fat and SNF Ratio</option>
+    </select>
+
+    <label>CLR Formula</label>
+    <div class="formula-box">
+      CLR = (SNF - (0.25 × FAT) - 0.14) × 4
+    </div>
+
+    <label class="rate-toggle">
+      <span>Fix Rate by SNF/CLR</span>
+      <input type="checkbox" id="fixRateBySnfClr">
+    </label>
+
+    <div class="rate-range">
+      <div>
+        <label>From</label>
+        <input id="rateFrom" type="number" value="2.5" step="0.1">
+      </div>
+
+      <div>
+        <label>To</label>
+        <input id="rateTo" type="number" value="15" step="0.1">
+      </div>
+    </div>
+
+    <div class="rate-range">
+      <div>
+        <label>FAT Rate</label>
+        <div class="rate-input">
+          <input id="fatRatePerKg" type="number"
+            placeholder="Enter FAT rate" step="0.01">
+          <span>/ Kg</span>
+        </div>
+      </div>
+
+      <div>
+        <label>SNF Rate</label>
+        <div class="rate-input">
+          <input id="snfRatePerKg" type="number"
+            placeholder="Enter SNF rate" step="0.01">
+          <span>/ Kg</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rate-editor-actions">
+      <button type="button"
+        onclick="closeRateEditor()">CANCEL</button>
+
+      <button type="button" class="primary"
+        onclick="saveRateSlot()">OK</button>
+    </div>
+  </div>
+</div>
 </main>
 
 <nav class="bottom">
