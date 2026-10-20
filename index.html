@@ -247,6 +247,155 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
   font-size: 13px;
   cursor: pointer;
  }
+/* EDIT SLOT PAGE DESIGN (EXACT IMAGE 4 MATCH) */
+.slot-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 5px;
+}
+.slot-editor-header h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #1a1a1a;
+}
+.btn-close-x {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #757575;
+  cursor: pointer;
+}
+
+.formula-row-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f3f4;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+.formula-row-box input {
+  width: 50px;
+  padding: 4px;
+  margin: 0;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Custom Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 3px; bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+input:checked + .slider { background-color: #4caf50; }
+input:checked + .slider:before { transform: translateX(20px); }
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+.range-row > div { flex: 1; }
+.dash-separator {
+  margin-top: 22px;
+  font-weight: bold;
+  color: #777;
+}
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.unit-input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d9e0da;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+.unit-input-group input {
+  border: none;
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  background: transparent;
+  font-weight: bold;
+}
+.unit-tag {
+  padding: 10px 8px;
+  background: #e9ecef;
+  color: #555;
+  font-size: 13px;
+  border-left: 1px solid #d9e0da;
+  white-space: nowrap;
+}
+
+.editor-action-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+  align-items: center;
+}
+.btn-cancel-flat {
+  background: none;
+  border: none;
+  color: #555;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn-ok-flat {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
 </style>
 </head>
 
@@ -753,67 +902,100 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
     </div>
   </div>
 </section>
-
-<div id="rateEditorModal" class="hidden">
-  <div class="rate-editor-box">
+ <!-- EDIT SLOT PAGE (FULL PAGE AS PER IMAGE 4) -->
+<section id="rateSlotEditor" class="hidden">
+  <div class="slot-editor-header">
     <h2>Edit Slot</h2>
-
-    <label>Rate Formula</label>
-    <select id="rateFormula">
-      <option value="ratio">By Fat and SNF Ratio</option>
-    </select>
-
-    <label>CLR Formula</label>
-    <div class="formula-box">
-      CLR = (SNF - (0.25 × FAT) - 0.14) × 4
-    </div>
-
-    <label class="rate-toggle">
-      <span>Fix Rate by SNF/CLR</span>
-      <input type="checkbox" id="fixRateBySnfClr">
-    </label>
-
-    <div class="rate-range">
-      <div>
-        <label>From</label>
-        <input id="rateFrom" type="number" value="2.5" step="0.1">
-      </div>
-
-      <div>
-        <label>To</label>
-        <input id="rateTo" type="number" value="15" step="0.1">
-      </div>
-    </div>
-
-    <div class="rate-range">
-      <div>
-        <label>FAT Rate</label>
-        <div class="rate-input">
-          <input id="fatRatePerKg" type="number"
-            placeholder="Enter FAT rate" step="0.01">
-          <span>/ Kg</span>
-        </div>
-      </div>
-
-      <div>
-        <label>SNF Rate</label>
-        <div class="rate-input">
-          <input id="snfRatePerKg" type="number"
-            placeholder="Enter SNF rate" step="0.01">
-          <span>/ Kg</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="rate-editor-actions">
-      <button type="button"
-        onclick="closeRateEditor()">CANCEL</button>
-
-      <button type="button" class="primary"
-        onclick="saveRateSlot()">OK</button>
-    </div>
+    <button type="button" class="btn-close-x" onclick="closeRateEditor()">✕</button>
   </div>
-</div>
+
+  <div class="panel" style="padding: 16px; background: #ffffff; border-radius: 12px;">
+    
+    <div class="form-group">
+      <label class="field-title">Rate Formula</label>
+      <select id="rateFormula">
+        <option value="By Fat and SNF Ratio">By Fat and SNF Ratio</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="field-title">SNF Formula</label>
+      <div class="formula-row-box">
+        <span>SNF =</span>
+        <span>( CLR / 4 ) +</span>
+        <input type="number" id="snfFatFactor" value="0.2" step="0.01">
+        <span>* FAT ) +</span>
+        <input type="number" id="snfConstFactor" value="0.14" step="0.01">
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <span class="field-title" style="margin:0">Fix Rate by SNF/CLR</span>
+      <label class="switch">
+        <input type="checkbox" id="fixRateBySnfClr">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div class="range-row">
+      <div>
+        <label class="field-title">From</label>
+        <select id="rateFrom">
+          <option value="2.5">2.5</option>
+          <option value="3.0">3.0</option>
+        </select>
+      </div>
+      <div class="dash-separator">-</div>
+      <div>
+        <label class="field-title">To</label>
+        <select id="rateTo">
+          <option value="15.0">15.0</option>
+          <option value="12.0">12.0</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="rates-grid">
+      <div>
+        <label class="field-title">FAT Rate</label>
+        <div class="unit-input-group">
+          <input type="number" id="fatRatePerKg" placeholder="544.61" step="0.01">
+          <span class="unit-tag">/ Kg</span>
+        </div>
+      </div>
+
+      <div>
+        <label class="field-title">SNF Rate</label>
+        <div class="unit-input-group">
+          <input type="number" id="snfRatePerKg" placeholder="277.76" step="0.01">
+          <span class="unit-tag">/ Kg</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <span class="field-title" style="margin:0">Enable Fat/SNF Ratio</span>
+      <label class="switch">
+        <input type="checkbox" id="enableFatSnfRatio" checked>
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <span class="field-title" style="margin:0">Increment Per FAT</span>
+      <label class="switch">
+        <input type="checkbox" id="incrementPerFat">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div class="editor-action-footer">
+      <button type="button" class="btn-cancel-flat" onclick="closeRateEditor()">CANCEL</button>
+      <button type="button" class="btn-ok-flat" onclick="saveRateSlot()">OK</button>
+    </div>
+
+  </div>
+</section>
 </main>
 
 <nav class="bottom">
@@ -825,7 +1007,47 @@ th,td{padding:10px 5px;border-bottom:1px solid #eee;text-align:left}
 </nav>
 
 <script>
-const $=id=>document.getElementById(id);
+// Rate Editor Page Open Logic (Shows Section directly)
+function openRateEditor() {
+  document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+  $('rateSlotEditor').classList.remove('hidden');
+
+  $('fatRatePerKg').value = localStorage.getItem('rajput_fat_rate') || '544.61';
+  $('snfRatePerKg').value = localStorage.getItem('rajput_snf_rate') || '277.76';
+  $('fixRateBySnfClr').checked = localStorage.getItem('rajput_fix_rate_by_snf_clr') === 'true';
+  window.scrollTo(0,0);
+}
+
+// Close Editor Page & Back to Settings
+function closeRateEditor() {
+  $('rateSlotEditor').classList.add('hidden');
+  show('rateSettings');
+}
+
+// Save Rate Slot values and update Main Rate display
+function saveRateSlot() {
+  const fatRate = $('fatRatePerKg').value || '544.61';
+  const snfRate = $('snfRatePerKg').value || '277.76';
+
+  localStorage.setItem('rajput_fat_rate', fatRate);
+  localStorage.setItem('rajput_snf_rate', snfRate);
+  localStorage.setItem('rajput_fix_rate_by_snf_clr', $('fixRateBySnfClr').checked);
+
+  // Main UI Rate Display Update
+  const displayFat = $('displayFatRate');
+  if(displayFat) displayFat.textContent = Number(fatRate).toFixed(2);
+
+  alert('Rate Slot Save ho gaya!');
+  closeRateEditor();
+}
+
+// Initial Load Handler
+document.addEventListener('DOMContentLoaded', () => {
+  const savedFatRate = localStorage.getItem('rajput_fat_rate') || '544.61';
+  const displayFat = $('displayFatRate');
+  if(displayFat) displayFat.textContent = Number(savedFatRate).toFixed(2);
+});
+ const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
 $('today').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
 $('milkDate').value=today;
