@@ -396,6 +396,9 @@ input:checked + .slider:before { transform: translateX(20px); }
   font-size: 14px;
   cursor: pointer;
 }
+main section.hidden {
+  display: none !important;
+}
 </style>
 </head>
 
@@ -1308,7 +1311,8 @@ function setTotalType(type, button) {
 
   button.classList.add('active');
 }
-function openCollectionTab(sectionId, button) {
+
+ function openCollectionTab(sectionId, button) {
   const collection = $('collection');
   if (!collection) return;
   document.querySelectorAll('main section').forEach(s => {
